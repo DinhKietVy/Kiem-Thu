@@ -110,4 +110,5 @@ except Exception as e:
 
 finally:
     time.sleep(8)
-    # driver.quit()
+    if 'driver' in locals():
+        driver.quit()

@@ -74,4 +74,5 @@ except Exception as e:
 
 finally:
     time.sleep(20)   # Giữ trình duyệt mở để xem kết quả
-    # driver.quit()    # Bỏ comment nếu muốn tự động đóng
+    if 'driver' in locals():
+        driver.quit()

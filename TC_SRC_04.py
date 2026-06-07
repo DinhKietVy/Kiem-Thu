@@ -13,17 +13,33 @@ def test_empty_search():
         driver.get("https://hoanghamobile.com/")
         driver.maximize_window()
 
-        # Chờ trang tải
-        WebDriverWait(driver, 10).until(
+        wait = WebDriverWait(driver, 10)
+
+        # Chờ thanh tìm kiếm xuất hiện trong DOM
+        search_box = wait.until(
             EC.presence_of_element_located((By.ID, "kwd"))
         )
+
+        # --- ĐOẠN XỬ LÝ POPUP QUẢNG CÁO (NẾU CÓ) ---
+        try:
+            # Tìm nút Close/X của modal dựa trên cấu trúc modal blocker đang che
+            # Thường nút tắt modal của jquery-modal có class 'close-modal'
+            close_popup_btn = wait.until(
+                EC.element_to_be_clickable((By.XPATH, "//a[contains(@class, 'close-modal')]"))
+            )
+            close_popup_btn.click()
+            print("Đã tự động tắt popup quảng cáo.")
+            time.sleep(1) # Chờ hiệu ứng tắt popup biến mất hẳn
+        except:
+            # Nếu không tìm thấy nút tắt hoặc không có popup thì bỏ qua
+            pass
+        # --------------------------------------------
 
         # Lưu URL ban đầu
         original_url = driver.current_url
 
-        # 2. Click vào thanh tìm kiếm
-        search_box = driver.find_element(By.ID, "kwd")
-        search_box.click()
+        # 2. Click vào thanh tìm kiếm (Sử dụng JavaScript Click để chống bị đè)
+        driver.execute_script("arguments[0].click();", search_box)
 
         # 3. Để trống ô tìm kiếm
         search_box.clear()

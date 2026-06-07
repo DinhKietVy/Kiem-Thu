@@ -36,18 +36,15 @@ try:
 
     print("Đã nhập:", xss_payload)
 
-    # Bấm nút Tiếp tục
+    # Bấm nút Tiếp tục (Đã sửa XPath: định vị chính xác bằng hàm onclick của nút TIẾP TỤC)
     continue_btn = wait.until(
         EC.element_to_be_clickable(
-            (
-                By.XPATH,
-                "//button[contains(.,'Tiếp tục') "
-                "or @type='submit']"
-            )
+            (By.XPATH, "//button[contains(@onclick, 'checkLogin(1)')]")
         )
     )
 
     continue_btn.click()
+    print("Đã click nút TIẾP TỤC")
 
     time.sleep(3)
 

@@ -98,6 +98,8 @@ def test_search_hoangha():
     finally:
 
         time.sleep(5)
+        if 'driver' in locals():
+            driver.quit()
 
 
 if __name__ == "__main__":

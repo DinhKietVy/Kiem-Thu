@@ -14,13 +14,29 @@ def test_search_nonexistent_product():
         driver.maximize_window()
         print("✅ Đã mở trang chủ")
 
-        # 2. Chờ thanh tìm kiếm xuất hiện
-        search_box = WebDriverWait(driver, 10).until(
+        wait = WebDriverWait(driver, 10)
+
+        # 2. Chờ thanh tìm kiếm xuất hiện trong DOM
+        search_box = wait.until(
             EC.presence_of_element_located((By.ID, "kwd"))
         )
 
-        # 3. Click vào thanh tìm kiếm
-        search_box.click()
+        # --- ĐOẠN XỬ LÝ POPUP QUẢNG CÁO ĐÈ GIAO DIỆN ---
+        try:
+            # Tìm và tắt modal quảng cáo dựa trên class 'close-modal' của thư viện jquery-modal
+            close_popup_btn = wait.until(
+                EC.element_to_be_clickable((By.XPATH, "//a[contains(@class, 'close-modal')]"))
+            )
+            close_popup_btn.click()
+            print("✅ Đã tự động tắt popup quảng cáo.")
+            time.sleep(1)  # Chờ hiệu ứng đóng của modal hoàn tất
+        except:
+            # Nếu không có popup xuất hiện thì bỏ qua block này và chạy tiếp
+            pass
+        # -----------------------------------------------
+
+        # 3. Click vào thanh tìm kiếm (Sử dụng JavaScript click để loại bỏ hoàn toàn rủi ro bị đè)
+        driver.execute_script("arguments[0].click();", search_box)
 
         # 4. Nhập từ khóa không tồn tại
         keyword = "Nokia Đập Đá 123"

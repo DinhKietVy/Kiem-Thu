@@ -12,7 +12,7 @@ try:
 
     wait = WebDriverWait(driver, 15)
 
-    # Tìm ô SĐT
+    # Tìm ô SĐT lần 1
     phone_input = wait.until(
         EC.presence_of_element_located((By.ID, "Phone"))
     )
@@ -23,16 +23,24 @@ try:
 
     time.sleep(1)
 
-    # Bấm nút Tiếp tục
+    # Bấm nút Tiếp tục (Sửa lại XPath dùng onclick cho chuẩn xác như file trước)
     continue_btn = wait.until(
         EC.element_to_be_clickable(
-            (By.XPATH, "//button[contains(.,'TIẾP TỤC')]")
+            (By.XPATH, "//button[contains(@onclick, 'checkLogin(1)')]")
         )
     )
 
     continue_btn.click()
 
+    # Chờ 2 giây để hệ thống AJAX xử lý và render lại giao diện
     time.sleep(2)
+
+    # --- ĐOẠN SỬA LỖI STALE ELEMENT ---
+    # Tìm lại ô SĐT lần 2 để cập nhật phần tử mới trên DOM sau khi bấm nút
+    phone_input = wait.until(
+        EC.presence_of_element_located((By.ID, "Phone"))
+    )
+    # ----------------------------------
 
     # Lấy giá trị thực tế trong ô sau khi hệ thống xử lý
     actual_value = phone_input.get_attribute("value")

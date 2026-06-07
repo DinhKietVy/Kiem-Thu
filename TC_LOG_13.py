@@ -12,7 +12,7 @@ try:
 
     wait = WebDriverWait(driver, 15)
 
-    # Ô nhập số điện thoại
+    # Ô nhập số điện thoại (Tìm lần 1 để nhập liệu)
     phone_input = wait.until(
         EC.presence_of_element_located((By.ID, "Phone"))
     )
@@ -32,9 +32,17 @@ try:
 
     driver.execute_script("arguments[0].click();", continue_btn)
 
+    # Chờ 3 giây để hệ thống AJAX xử lý xong và cập nhật lại DOM
     time.sleep(3)
 
-    # Lấy giá trị hiện tại trong ô nhập
+    # --- ĐOẠN SỬA LỖI STALE ELEMENT ---
+    # Tìm lại ô nhập số điện thoại lần 2 để bắt phần tử mới sau khi trang cập nhật
+    phone_input = wait.until(
+        EC.presence_of_element_located((By.ID, "Phone"))
+    )
+    # ----------------------------------
+
+    # Lấy giá trị hiện tại trong ô nhập (Lúc này biến phone_input đã hợp lệ)
     actual_value = phone_input.get_attribute("value")
 
     print("Giá trị trong ô:", actual_value)

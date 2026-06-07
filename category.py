@@ -73,12 +73,14 @@ try:
     time.sleep(2)
     try:
         # Lấy tổng tiền sau khi tăng
-        total_element = wait.until(EC.presence_of_element_located((
-            By.CSS_SELECTOR, ".cart-total-price, .total-amount, .grand-total, .price-total"
-        )))
-        
-        total_after = total_element.text
-        print(f"✅ Tổng tiền sau khi tăng số lượng: {total_after}")
+        total_element = wait.until(
+            EC.visibility_of_element_located(
+                (By.CSS_SELECTOR, ".cart-total .price")
+            )
+        )
+
+        total_after = total_element.text.strip()
+        print("✅ Tổng tiền:", total_after)
 
         # Kiểm tra sơ bộ
         if "₫" in total_after and len(total_after) > 5:

@@ -193,5 +193,4 @@ except Exception as e:
 finally:
     print("\n🏁 Kết thúc test")
 
-    input("Nhấn Enter để đóng trình duyệt...")
-    driver.quit()
+    time.sleep(8)

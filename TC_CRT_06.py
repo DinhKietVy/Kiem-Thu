@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import traceback
+
 
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
@@ -27,18 +29,17 @@ try:
 
     # Kiểm tra thông báo giỏ hàng trống
     empty_cart = wait.until(
-        EC.presence_of_element_located(
-            (By.XPATH, "//*[contains(text(),'Giỏ hàng của bạn đang trống')]")
-        )
+    EC.visibility_of_element_located(
+        (By.XPATH, "//strong[contains(text(),'Hiện chưa có sản phẩm nào trong giỏ hàng')]")
     )
+)
 
     if empty_cart.is_displayed():
         print("✅ PASS: Hiển thị 'Giỏ hàng của bạn đang trống'")
     else:
         print("❌ FAIL: Không hiển thị thông báo")
-
-except Exception as e:
-    print("❌ Lỗi:", str(e))
+except Exception:
+    traceback.print_exc()
 
 finally:
     time.sleep(5)

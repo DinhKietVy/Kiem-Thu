@@ -58,7 +58,13 @@ try:
     print("Số lượng ban đầu:", old_value)
 
     # ====================== 6. PASTE GIÁ TRỊ 10 ======================
-    quantity_input.click()
+
+    # Click bằng JavaScript thay vì click thường
+    driver.execute_script(
+        "arguments[0].click();",
+        quantity_input
+    )
+
     quantity_input.send_keys(Keys.CONTROL + "a")
     quantity_input.send_keys(Keys.CONTROL + "v")
 

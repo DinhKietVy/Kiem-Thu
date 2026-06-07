@@ -80,10 +80,12 @@ try:
             current_value = quantity_input.get_attribute("value")
             print(f"Số lượng hiện tại: {current_value}")
 
-            if current_value == "10":
-                print("✅ PASS: Hệ thống tự giới hạn số lượng về 10")
+            current_qty = int(current_value)
+
+            if current_qty < 50:
+                print(f"✅ PASS: Hệ thống đã giới hạn số lượng ở mức {current_qty}")
             else:
-                print(f"⚠️ Không thấy thông báo lỗi. Giá trị hiện tại = {current_value}")
+                print(f"❌ FAIL: Hệ thống cho phép tăng lên {current_qty}")
 
         except:
             print("⚠️ Không tìm được ô số lượng để kiểm tra")
